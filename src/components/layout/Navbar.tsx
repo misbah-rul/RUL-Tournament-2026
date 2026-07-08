@@ -1,5 +1,6 @@
 import { Container } from "./Container";
 import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 export function Navbar() {
   const location = useLocation();
@@ -10,7 +11,7 @@ export function Navbar() {
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-primary-foreground shadow-lg shadow-primary/20 italic">R</div>
+            <img src={logo} className="h-8 w-auto object-contain" alt="Riseup Labs Logo" />
             <span className="text-lg font-bold tracking-tight uppercase italic">
               Riseup Labs <span className="text-primary">2026</span>
             </span>
