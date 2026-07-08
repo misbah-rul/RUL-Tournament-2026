@@ -27,26 +27,30 @@ export function Results() {
 
   const fetchResults = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase
-      .from('fixtures')
-      .select(`
-        *,
-        player1:player1_id(*),
-        player2:player2_id(*),
-        results(*)
-      `)
-      .eq('status', 'completed')
-      .order('date', { ascending: false })
-      .order('time', { ascending: false });
-      
-    if (data) {
-      const formattedResults: MatchProps[] = data.map((f: any) => {
-        const result = f.results && f.results.length > 0 ? f.results[0] : null;
+
+    // Fetch fixtures and results separately — avoids silently failing results(*) join
+    const [{ data: fixturesData }, { data: resultsData }] = await Promise.all([
+      supabase
+        .from('fixtures')
+        .select('*, player1:player1_id(*), player2:player2_id(*)')
+        .eq('status', 'completed')
+        .order('date', { ascending: false })
+        .order('time', { ascending: false }),
+      supabase.from('results').select('*'),
+    ]);
+
+    if (fixturesData) {
+      const formattedResults: MatchProps[] = fixturesData.map((f: any) => {
+        const allResults = resultsData ?? [];
+        const result = allResults.find((r: any) => r.fixture_id === f.id) ?? null;
+
         let winner: 'player1' | 'player2' | 'draw' | undefined;
-        
         if (result) {
-          if (result.player1_score > result.player2_score) winner = 'player1';
-          else if (result.player2_score > result.player1_score) winner = 'player2';
+          // -1 is the walkover sentinel (that player LOST)
+          const p1 = result.player1_score === -1 ? -Infinity : result.player1_score;
+          const p2 = result.player2_score === -1 ? -Infinity : result.player2_score;
+          if (p1 > p2) winner = 'player1';
+          else if (p2 > p1) winner = 'player2';
           else winner = 'draw';
         }
 

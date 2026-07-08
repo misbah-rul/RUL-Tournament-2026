@@ -10,7 +10,7 @@ export function Home() {
       <section className="relative overflow-hidden pt-20 pb-24 md:pt-32 md:pb-36 lg:pt-40 lg:pb-44 text-white bg-black">
         {/* Slightly blurred and darker background image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center select-none pointer-events-none filter blur-[3px] brightness-[0.22] scale-105"
+          className="absolute inset-0 bg-cover bg-center select-none pointer-events-none filter blur-[2px] brightness-[0.35] scale-105"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
         {/* Dark radial gradient overlay for premium depth and readability */}

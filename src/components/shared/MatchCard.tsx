@@ -94,14 +94,27 @@ export const MatchCard: React.FC<MatchProps> = ({
                     {player1Score === -1 ? 0 : player1Score ?? 0} - {player2Score === -1 ? 0 : player2Score ?? 0}
                   </span>
                   <div className="flex flex-col items-center gap-1 mt-1">
-                    {(player1Score === -1 || player2Score === -1) && (
-                      <Badge variant="outline" className="text-[9px] bg-primary/10 text-primary border-primary/20 font-bold uppercase tracking-widest px-1.5 py-0 rounded">W.O.</Badge>
-                    )}
                     {status === 'in_progress' && (
                       <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest animate-pulse">Playing</span>
                     )}
                     {status === 'completed' && !(player1Score === -1 || player2Score === -1) && (
                       <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">FT</span>
+                    )}
+                    {(player1Score === -1 || player2Score === -1) && (
+                      <div className="flex flex-col items-center gap-1 mt-2">
+                        <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg shadow-sm">
+                          <Trophy className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                          <span className="font-extrabold text-xs text-amber-800">
+                            {player1Score === -1 ? player2.name : player1.name}
+                          </span>
+                          <Badge className="text-[9px] bg-amber-500 text-white border-none hover:bg-amber-500 font-black uppercase px-1.5 py-0.5 rounded shrink-0">
+                            W.O.
+                          </Badge>
+                        </div>
+                        <span className="text-[9px] text-amber-600 font-black uppercase tracking-widest mt-0.5">
+                          Wins by Walkover
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
