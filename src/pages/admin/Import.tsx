@@ -335,20 +335,20 @@ export function AdminImport() {
       }
 
       if (previewSummary.fixtures.length > 0) {
-        const { data: allPlayers } = await supabase.from('players').select('id, name');
-        const playerMap = new Map((allPlayers || []).map(p => [p.name, p.id]));
+        const { data: allPlayers } = await supabase.from('players').select('id, name') as any;
+        const playerMap = new Map(((allPlayers as any[]) || []).map(p => [p.name, p.id]));
         
-        const { data: existingFixtures } = await supabase.from('fixtures').select('id, player1_id, player2_id');
-        const { data: existingResults } = await supabase.from('results').select('id, fixture_id');
+        const { data: existingFixtures } = await supabase.from('fixtures').select('id, player1_id, player2_id') as any;
+        const { data: existingResults } = await supabase.from('results').select('id, fixture_id') as any;
         
         const existingFixturesMap = new Map();
-        (existingFixtures || []).forEach(f => {
+        ((existingFixtures as any[]) || []).forEach(f => {
           const key = `${f.player1_id}-${f.player2_id}`;
           if (!existingFixturesMap.has(key)) existingFixturesMap.set(key, []);
           existingFixturesMap.get(key).push(f.id);
         });
         
-        const existingResultFixtures = new Set((existingResults || []).map(r => r.fixture_id));
+        const existingResultFixtures = new Set(((existingResults as any[]) || []).map(r => r.fixture_id));
 
         const fixturesToProcess = previewSummary.fixtures.map(f => {
           const player1_id = playerMap.get(f.p1);

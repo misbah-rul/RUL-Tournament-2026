@@ -41,7 +41,7 @@ export function Results() {
 
     if (fixturesData) {
       const formattedResults: MatchProps[] = fixturesData.map((f: any) => {
-        const allResults = resultsData ?? [];
+        const allResults = (resultsData as any) ?? [];
         const result = allResults.find((r: any) => r.fixture_id === f.id) ?? null;
 
         let winner: 'player1' | 'player2' | 'draw' | undefined;

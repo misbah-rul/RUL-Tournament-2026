@@ -92,7 +92,7 @@ export function ResultManagement() {
     setIsLoadingDialog(false);
 
     if (!error && liveResults && liveResults.length > 0) {
-      const result = liveResults[0];
+      const result = liveResults[0] as any;
       const isWalkover = result.player1_score === -1 || result.player2_score === -1;
       if (isWalkover) {
         setWalkoverWinner(result.player1_score >= 0 ? 'player1' : 'player2');
@@ -126,7 +126,7 @@ export function ResultManagement() {
         return;
       }
 
-      const existingResult = existingResults && existingResults.length > 0 ? existingResults[0] : null;
+      const existingResult = existingResults && existingResults.length > 0 ? (existingResults[0] as any) : null;
 
       const scorePayload = {
         player1_score: player1Score,

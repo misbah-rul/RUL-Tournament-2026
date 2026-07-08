@@ -58,7 +58,7 @@ export function Fixtures() {
     if (fixturesData) {
       const formattedFixtures: MatchProps[] = fixturesData.map((f: any) => {
         // Match results to this fixture client-side
-        const allResults = resultsData ?? [];
+        const allResults = (resultsData as any) ?? [];
         const result = allResults.find((r: any) => r.fixture_id === f.id) ?? null;
 
         let winner: 'player1' | 'player2' | 'draw' | undefined;
