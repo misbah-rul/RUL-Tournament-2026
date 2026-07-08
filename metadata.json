@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Riseup Labs FIFA Tournament 2026",
+  "description": "Tournament management application for Riseup Labs FIFA 2026",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
