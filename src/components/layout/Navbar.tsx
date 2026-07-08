@@ -1,7 +1,5 @@
 import { Container } from "./Container";
 import { Link, useLocation } from "react-router-dom";
-import { buttonVariants } from "../ui/button";
-import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const location = useLocation();
@@ -51,14 +49,8 @@ export function Navbar() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-4">
-            <Link to="/admin/login" className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "hidden sm:flex text-xs font-semibold")}>
-              ADMIN LOGIN
-            </Link>
-            <div className="w-10 h-10 rounded-full border-2 border-primary p-0.5 bg-secondary hidden sm:block">
-              <div className="w-full h-full rounded-full bg-gradient-to-tr from-muted-foreground to-muted"></div>
-            </div>
-          </div>
+          {/* Right side intentionally empty — admin panel is accessed directly via /admin */}
+          <div className="flex items-center gap-4" />
         </div>
       </Container>
     </header>

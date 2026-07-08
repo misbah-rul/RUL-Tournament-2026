@@ -48,18 +48,22 @@ export function Standings() {
         .select('*');
         
       if (!viewError && viewData) {
-        const mappedData = viewData.map((row: any) => ({
-          id: row.player_id,
-          name: row.player_name,
-          played: Number(row.matches_played),
-          won: Number(row.wins),
-          drawn: Number(row.draws),
-          lost: Number(row.losses),
-          gf: Number(row.goals_for),
-          ga: Number(row.goals_against),
-          gd: Number(row.goal_difference),
-          pts: Number(row.points)
-        }));
+        const mappedData = viewData.map((row: any) => {
+          const gf = Math.max(0, Number(row.goals_for));
+          const ga = Math.max(0, Number(row.goals_against));
+          return {
+            id: row.player_id,
+            name: row.player_name,
+            played: Number(row.matches_played),
+            won: Number(row.wins),
+            drawn: Number(row.draws),
+            lost: Number(row.losses),
+            gf,
+            ga,
+            gd: gf - ga,
+            pts: Number(row.points)
+          };
+        });
         setStandings(mappedData);
         setIsLoading(false);
         return;
@@ -101,10 +105,12 @@ export function Standings() {
           p1.played++;
           p2.played++;
           
-          p1.gf += result.player1_score;
-          p1.ga += result.player2_score;
-          p2.gf += result.player2_score;
-          p2.ga += result.player1_score;
+          const p1ScoreClamped = Math.max(0, result.player1_score);
+          const p2ScoreClamped = Math.max(0, result.player2_score);
+          p1.gf += p1ScoreClamped;
+          p1.ga += p2ScoreClamped;
+          p2.gf += p2ScoreClamped;
+          p2.ga += p1ScoreClamped;
           
           if (result.player1_score > result.player2_score) {
             p1.won++;

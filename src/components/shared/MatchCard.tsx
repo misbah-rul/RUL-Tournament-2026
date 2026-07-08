@@ -89,16 +89,21 @@ export const MatchCard: React.FC<MatchProps> = ({
             {/* Score / VS */}
             <div className="flex flex-col items-center justify-center">
               {status === 'completed' || status === 'in_progress' ? (
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center gap-1">
                   <span className={cn("text-4xl md:text-5xl font-black italic", status === 'in_progress' ? 'text-primary' : '')}>
-                    {player1Score ?? 0} - {player2Score ?? 0}
+                    {player1Score === -1 ? 0 : player1Score ?? 0} - {player2Score === -1 ? 0 : player2Score ?? 0}
                   </span>
-                  {status === 'in_progress' && (
-                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-2 animate-pulse">Playing</span>
-                  )}
-                  {status === 'completed' && (
-                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-2">FT</span>
-                  )}
+                  <div className="flex flex-col items-center gap-1 mt-1">
+                    {(player1Score === -1 || player2Score === -1) && (
+                      <Badge variant="outline" className="text-[9px] bg-primary/10 text-primary border-primary/20 font-bold uppercase tracking-widest px-1.5 py-0 rounded">W.O.</Badge>
+                    )}
+                    {status === 'in_progress' && (
+                      <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest animate-pulse">Playing</span>
+                    )}
+                    {status === 'completed' && !(player1Score === -1 || player2Score === -1) && (
+                      <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">FT</span>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <span className="text-2xl font-black italic text-muted-foreground/50 mx-4">VS</span>
